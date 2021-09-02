@@ -1,21 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import reducer from './reducers/index.js'
+import { createStore, applyMiddleware} from 'redux'
+import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+import logger from 'redux-logger';
+import firebase from './config/firebase'
+import SwitchNavigator from './navigation/SwitchNavigator';
 
-export default function App() {
+const middleware = applyMiddleware(thunkMiddleware, logger)
+const store = createStore(reducer, middleware);
+//console.disableYellowBox = true;
+
+
+export default class App extends React.Component {
+  render() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+      <Provider store={store}>
+        <SwitchNavigator/>
+      </Provider>
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
