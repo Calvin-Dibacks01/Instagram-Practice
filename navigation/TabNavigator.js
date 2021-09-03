@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Home from '../screens/Home.js'
 import Search from '../screens/Search.js'

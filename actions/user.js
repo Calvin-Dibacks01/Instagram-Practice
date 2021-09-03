@@ -16,24 +16,49 @@ export const updateBio = (bio) => {
 	return {type: 'UPDATE_BIO', payload: bio}
 }
 
+/*export const login = () => {
+	return async (dispatch, getState) => {
+		try {
+			const { email, password } = getState().user
+			console.log(email, password)
+			const response = await firebase.auth().signInWithEmailAndPassword(email, password)
+			console.log(response)
+		} catch (e) {
+			alert(e)
+		}
+	}
+}*/
+
 export const login = () => {
 	return async (dispatch, getState) => {
 		try {
 			const { email, password } = getState().user
 			const response = await firebase.auth().signInWithEmailAndPassword(email, password)
-            dispatch({type: 'LOGIN', payload: response.user})
+			dispatch({type: 'LOGIN', payload: response.user})
 		} catch (e) {
 			alert(e)
 		}
 	}
 }
 
+
 export const signup = () => {
 	return async (dispatch, getState) => {
 		try {
-			const { email, password } = getState().user
+			const { email, password, username, bio } = getState().user
 			const response = await firebase.auth().createUserWithEmailAndPassword(email, password)
-            dispatch({type: 'SIGNUP', payload: response.user})
+			if(response.user.uid) {
+				const user = {
+					uid: response.user.uid,
+					email: email,
+					username: username,
+					bio: bio,
+					photo: '',
+					token: null,
+				}
+				db.collection('users').doc(response.user.uid).set(user)
+				dispatch({type: 'SIGNUP', payload: user})
+			}
 		} catch (e) {
 			alert(e)
 		}

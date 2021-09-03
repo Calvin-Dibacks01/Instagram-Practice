@@ -6,15 +6,20 @@ import { updateEmail, updatePassword, login } from '../actions/user'
 import firebase from 'firebase';
 
 class Login extends React.Component {
+    /*login = () => {
+      this.props.login(email, password)
+      this.props.navigation.navigate('Home')
+    }*/
+    componentDidMount = () => {
+      firebase.auth().onAuthStateChanged((user) => {
+        if(user){
+          this.props.navigation.navigate('Home')
+        }
+      })
+    }
+  
 
-	componentDidMount = () => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if(user){
-        this.props.navigation.navigate('Home')
-      }
-    })
-  }
-  render() {
+    render() {
     return (
       <View style={styles.container}>
         <TextInput
