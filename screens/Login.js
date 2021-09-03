@@ -12,7 +12,7 @@ class Login extends React.Component {
     }*/
     componentDidMount = () => {
       firebase.auth().onAuthStateChanged((user) => {
-        if(user){
+        if(user){ //checks if the user exists
           this.props.navigation.navigate('Home')
         }
       })
